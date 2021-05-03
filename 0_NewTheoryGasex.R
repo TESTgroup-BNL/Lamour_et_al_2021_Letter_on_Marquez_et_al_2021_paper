@@ -1,6 +1,4 @@
 setwd("~/NewTheoryGasex")
-data_LICOR6800=read.csv('Figure4.csv') ## data from figure 4, with only the first experiment 
-
 
 ####################################
 ### Function to compute the LICOR6800 gasex variables according to the new theory by Marquez et al. 2021
@@ -58,24 +56,21 @@ f.Comput_GasEx<-function(LICOR6800_data,gcw,Beta=0.05){
   
   return(list(ws=ws,wi=wi,Cs=Cs,Ci=Ci,gsw=gsw)) 
 }
-test=f.Comput_GasEx(LICOR6800_data = data_LICOR6800,gcw = 21*10^-3,Beta = 0.05)
-test0=f.Comput_GasEx(LICOR6800_data = data_LICOR6800,gcw = 0,Beta = 0.05)
+
+## The function is compared to the result they obtained on Figure 4 of their first experiment using their data
+data_LICOR6800=read.csv('Figure4.csv') ## data from figure 4, with only the first experiment 
+
+test=f.Comput_GasEx(LICOR6800_data = data_LICOR6800,gcw = 21*10^-3,Beta = 0.05) ## The gcw value was communicated by Farquhar et Marquez through email
+test0=f.Comput_GasEx(LICOR6800_data = data_LICOR6800,gcw = 0,Beta = 0.05) ## For comparison with the LICOR6800 data. This simulation should give a very similar result as with the output of the LICOR6800. The result should be identical for the parameter K in the LICOR6800 = 0.5 
 
 par(mfrow=c(1,2),mar=c(4,4.5,2,1))
 plot(y=data_LICOR6800$A,x=data_LICOR6800$Ci,xlim=c(0,300),ylim=c(0,22),col='red',ylab=expression(A~(micro*mol~m^-2~s^-1)),xlab=expression(C[i]~(ppm)))
 points(y=data_LICOR6800$A,x=test$Ci,col='blue')
 points(y=data_LICOR6800$A,x=test0$Ci,col='green')
-# There is an issue, the blue points should have a lower Ci
+
 
 plot(y=data_LICOR6800$Ci,x=data_LICOR6800$Air.VP.def,xlim=c(1,3),ylim=c(0,300),col='red',ylab=expression(C[i]~(ppm)),xlab = expression(ASD~(kPa)))
 points(y=test$Ci,x=data_LICOR6800$Air.VP.def,col='blue')
 points(y=test0$Ci,x=data_LICOR6800$Air.VP.def,col='green')
-
-plot(data_LICOR6800$gsw,test$gsw,xlim=c(0,0.3),ylim=c(0,0.3))
-abline(a = c(0,1))
-summary(lm(data_LICOR6800$gsw~test$gsw))
-
-plot(data_LICOR6800$Ci,test$Ci,xlim=c(100,300),ylim=c(100,300))
-abline(a = c(0,1))
 
 
