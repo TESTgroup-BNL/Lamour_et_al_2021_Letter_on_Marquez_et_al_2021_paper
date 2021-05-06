@@ -1,19 +1,23 @@
-setwd("~/NewTheoryGasex")
-
 ####################################
 ### Function to compute the LICOR6800 gasex variables according to the new theory by Marquez et al. 2021
 #' Title
 #'
-#' @param LICOR6800_data 
+#' @param LICOR6800_data Data.frame object corresponding to the excel file raw output from a LICOR6800. Note that the column 'Delta'.Pcham in the excel file is important but is often not correctly imported in R due to the Delta grec symbol. In this data.frame, the column name has to names X.Pcham for the function to work.
 #' @param gcw Cuticular conductance in mol m-2 s-1
-#' @param Beta Ratio of cuticular conductance to CO2 and cuticular conductance to H20
-#'
-#' @return
+#' @param Beta Ratio of cuticular conductance to CO2 and cuticular conductance to H20, see 
+#' @references Márquez DA, Stuart-Williams H, Farquhar GD. 2021. An improved theory for calculating leaf gas exchange more precisely accounting for small fluxes. Nature Plants.
+#' @return Return a list with: 
+#' Cs the leaf surface CO2 concentration (ppm)
+#' Ci the leaf internal CO2 concentration (ppm)
+#' gsw the leaf stomatal conductance to water (mol m-2 s-1)
+#' glw the leaf conductance to water (mol m-2 s-1)
+#' ws the leaf surface water concentration
+#' wi the leaf internal water concentration
 #' @export
 #'
 #' @examples
 f.Comput_GasEx<-function(LICOR6800_data,gcw,Beta=0.05){
-  
+  if(is.null(LICOR6800_data$X.Pcham)){print('Please, be sure to import the data from the excel output of the LICOR6800 and that the column name Delta.Pcham which uses the grec letter Delta is called X.Pcham in your R data.frame')}
   ## Correspondance between lICOR6800 column names and unit with Marquez et al. 2021 variables
   ET=LICOR6800_data$E
   AT=LICOR6800_data$A
@@ -54,10 +58,10 @@ f.Comput_GasEx<-function(LICOR6800_data,gcw,Beta=0.05){
   
   gsw = (Es-Es*((wi+ws)/2))/(wi-ws)
   
-  return(list(ws=ws,wi=wi,Cs=Cs,Ci=Ci,gsw=gsw)) 
+  return(list(Cs=Cs,Ci=Ci,gsw=gsw,glw=gsw+gcw,ws=ws,wi=wi)) 
 }
 
-## The function is compared to the result they obtained on Figure 4 of their first experiment using their data
+## The function is compared to the result Marquez et al., (2021) obtained on their Figure 4 
 data_LICOR6800=read.csv('Figure4.csv') ## data from figure 4, with only the first experiment 
 
 test=f.Comput_GasEx(LICOR6800_data = data_LICOR6800,gcw = 21*10^-3,Beta = 0.05) ## The gcw value was communicated by Farquhar et Marquez through email
