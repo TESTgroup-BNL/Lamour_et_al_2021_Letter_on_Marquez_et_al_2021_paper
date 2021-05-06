@@ -2,9 +2,9 @@
 ## The aim of this code is to test the effect of the new theory on the fitting 
 ## of ACi curves
 
-setwd("~/GitHub/NewTheoryGasEx")
+setwd("~/GitHub/Marquez_et_al_2021_New_Gasex_theory")
 library(LeafGasExchange)
-
+source('0_NewTheoryGasex.R')
 load('1_Aci_data_QaQc.Rdata')
 colnames(Aci_data)[colnames(Aci_data)=='X.U.0394.Pcham']='X.Pcham'
 ## I first work on the curve BNL17167 which is quite nice
@@ -18,7 +18,7 @@ Recomp_Aci$Recomp='Reference'
 
 ## I recompute this file using Marquez et al. 2021 theory using different values 
 ## of cuticular conductance
-for(gcw in seq(0,20*10^-3,1*10^-3)){
+for(gcw in seq(0,25*10^-3,1*10^-3)){
   Recomp=f.Comput_GasEx(LICOR6800_data = Aci,gcw = gcw)
   Recomp_Aci=rbind.data.frame(Recomp_Aci,data.frame(A=Aci$A,
                                                     Tleaf=Aci$Tleaf,
@@ -77,7 +77,8 @@ res=as.data.frame(t(sapply(result_various_gcw,
                                                                  sqrt(diag(vcov(x[[2]]))),
                                                                  AIC=AIC(x[[2]])))))
 res$Recomp=row.names(res)
-plot(y=res$VcmaxRef,x=as.numeric(res$Recomp)*1000,ylab=expression(italic(V)[cmax25]),xlab=expression(italic(g)[cw]))
-plot(y=res$JmaxRef,x=as.numeric(res$Recomp)*1000,ylab=expression(italic(J)[max25]),xlab=expression(italic(g)[cw]))
-plot(y=res$TpRef,x=as.numeric(res$Recomp)*1000,ylab=expression(italic(TPU)[25]),xlab=expression(italic(g)[cw]))
-plot(y=res$RdRef,x=as.numeric(res$Recomp)*1000,ylab=expression(italic(R)[day25]),xlab=expression(italic(g)[cw]))
+par(mfrow=c(1,4))
+plot(y=res$VcmaxRef/res$VcmaxRef[1],x=as.numeric(res$Recomp)*1000,ylab=expression(italic(V)[cmax25]),xlab=expression(italic(g)[cw]),ylim=c(0.7,1.3))
+plot(y=res$JmaxRef/res$JmaxRef[1],x=as.numeric(res$Recomp)*1000,ylab=expression(italic(J)[max25]),xlab=expression(italic(g)[cw]),ylim=c(0.7,1.3))
+plot(y=res$TpRef/res$TpRef[1],x=as.numeric(res$Recomp)*1000,ylab=expression(italic(TPU)[25]),xlab=expression(italic(g)[cw]),ylim=c(0.7,1.3))
+plot(y=res$RdRef/res$RdRef[1],x=as.numeric(res$Recomp)*1000,ylab=expression(italic(R)[day25]),xlab=expression(italic(g)[cw]),ylim=c(0.7,1.3))
