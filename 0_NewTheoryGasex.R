@@ -13,6 +13,8 @@
 #' glw the leaf conductance to water (mol m-2 s-1)
 #' ws the leaf surface water concentration
 #' wi the leaf internal water concentration
+#' Es the transpiration through the stomata (mol m-2 s-1)
+#' Ec the transpiration through the cuticule (mol m-2 s-1)
 #' @export
 #'
 #' @examples
@@ -58,7 +60,7 @@ f.Comput_GasEx_6800<-function(LICOR6800_data,gcw,Beta=0.05){
   
   gsw = (Es-Es*((wi+ws)/2))/(wi-ws)
   
-  return(list(Cs=Cs,Ci=Ci,gsw=gsw,glw=gsw+gcw,ws=ws,wi=wi)) 
+  return(list(Cs=Cs,Ci=Ci,gsw=gsw,glw=gsw+gcw,ws=ws,wi=wi,Es=Es,Ec=Ec)) 
 }
 
 ## The function is compared to the result Marquez et al., (2021) obtained on their Figure 4 
