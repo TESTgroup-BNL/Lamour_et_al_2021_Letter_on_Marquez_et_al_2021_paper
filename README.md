@@ -12,9 +12,10 @@
  - Leaf transpiration
  - Leaf CO2 assimilation rate
 It also uses two parameters, the leaf cuticular conductance to water and Beta, the ratio between the cuticular conductance to CO2 and to water. 
-Functions are given to recompute the gas exchange variables from the outputs of the LICOR6800 and LICOR6400.
 
-Several exemples of the effect of this new theory are given for Aci data using the script [2_Recalculation_ACi_MSWF_model.R](https://github.com/TESTgroup-BNL/Marquez_et_al_2021_New_Gasex_theory/blob/main/2_Recalculation_ACi_MSWF_model.R).
+Functions are given to recompute the gas exchange variables from the outputs of the LICOR6800 and LICOR6400 [0_NewTheoryGasex.R](https://github.com/TESTgroup-BNL/Marquez_et_al_2021_New_Gasex_theory/blob/main/0_NewTheoryGasex.R). Examples or recalculations are made using the script [2_Recalculation_ACi_MSWF_model.R](https://github.com/TESTgroup-BNL/Marquez_et_al_2021_New_Gasex_theory/blob/main/2_Recalculation_ACi_MSWF_model.R).
+
+The effect of the MSWF theory on the ACi parameters are obtained using also the script [2_Recalculation_ACi_MSWF_model.R](https://github.com/TESTgroup-BNL/Marquez_et_al_2021_New_Gasex_theory/blob/main/2_Recalculation_ACi_MSWF_model.R).
 
 Simulations of leaf gas exchange for a tropical species are made using the script [3_Simulations_LeafGasEx_Fick_vCF_MSWF.R](https://github.com/TESTgroup-BNL/Marquez_et_al_2021_New_Gasex_theory/blob/main/3_Simulations_LeafGasEx_Fick_vCF_MSWF.R). For those simulations the Farquhar et al. 1980 photosynthesis model is coupled with a stomatal conductance model (Medlyn et al. 2011). The MSWF theory is used to calculate the gas transport between the leaf and the atmosphere and is compared with the vCF theory (von Caemmerer and Farquhar, 1981) and the Fick's law of diffusion which is often implemented in crops and terrestrial biosphere models.
 
