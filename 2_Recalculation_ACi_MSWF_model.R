@@ -80,7 +80,7 @@ for(gcw in seq(0,25*10^-3,1*10^-3)){
                                                                   Recomp=gcw))
   
 }
-Recomp_Aci_oak$Species='Quercus coccinea MÃ¼nchh'
+Recomp_Aci_oak$Species='Quercus coccinea Münchh'
 Recomp_Aci_oak$mean_gbw=mean(2*Aci_data_oak$BLCond)
 colnames(Recomp_Aci_oak)=colnames(Recomp_Aci_Panama)
 
@@ -98,7 +98,7 @@ abline(c(0,1))
 # Figure of the effect of cc
 data_fig=Recomp_Aci[Recomp_Aci$Recomp!='Reference',]
 data_fig$Recomp=as.numeric(data_fig$Recomp)  
-data_fig$Species=factor(as.character(data_fig$Species),levels = c("Quercus coccinea MÃ¼nchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
+data_fig$Species=factor(as.character(data_fig$Species),levels = c("Quercus coccinea Münchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
 library(viridis)
 jpeg(filename = 'Figure1.jpeg',width = 150,height = 92,units = 'mm',res=300)
 (ggplot(data=data_fig,
@@ -108,7 +108,7 @@ jpeg(filename = 'Figure1.jpeg',width = 150,height = 92,units = 'mm',res=300)
       +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
   + scale_color_gradientn(colours = c('grey92','grey60','grey20'))
       +scale_shape_discrete(labels=
-          c(expression(italic(Quercus~cocinear)~MÃ¼nchh),
+          c(expression(italic(Quercus~cocinear)~Münchh),
             expression(italic(Petasides~frigidus)),
             expression(italic(Guatteria~dumetorum))
             ))
@@ -239,11 +239,11 @@ res_oak$Recomp=row.names(res_oak)
 #########################
 res_oak$TpRef=NA
 res_arctic$TpRef=NA
-res_oak$Species="Quercus coccinea MÃ¼nchh"
+res_oak$Species="Quercus coccinea Münchh"
 res_Panama$Species="Guatteria dumetorum"
 res_arctic$Species="Petasites frigidus"
 res_all=rbind.data.frame(res_oak[,colnames(res_Panama)],res_arctic[,colnames(res_Panama)],res_Panama)
-res_all$Species=factor(as.character(res_all$Species),levels = c("Quercus coccinea MÃ¼nchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
+res_all$Species=factor(as.character(res_all$Species),levels = c("Quercus coccinea Münchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
 
 data_fig=res_all[res_all$Recomp!='Reference',]
 for(species in unique(data_fig$Species)){
@@ -262,7 +262,7 @@ a=(ggplot(data=data_fig,
    +ylim(c(0.5,2))
    #+ scale_color_gradientn(colours = c('grey92','grey60','grey20'))
    +scale_shape_discrete(labels=
-                           c(expression(italic(Quercus~cocinear)~MÃ¼nchh),
+                           c(expression(italic(Quercus~cocinear)~Münchh),
                              expression(italic(Petasides~frigidus)),
                              expression(italic(Guatteria~dumetorum))
                            ))
@@ -278,7 +278,7 @@ b=(ggplot(data=data_fig,
    +ylim(c(0.5,2))
    #+ scale_color_gradientn(colours = c('grey92','grey60','grey20'))
    +scale_shape_discrete(labels=
-                           c(expression(italic(Quercus~cocinear)~MÃ¼nchh),
+                           c(expression(italic(Quercus~cocinear)~Münchh),
                              expression(italic(Petasides~frigidus)),
                              expression(italic(Guatteria~dumetorum))
                            ))
@@ -295,7 +295,7 @@ c=(ggplot(data=data_fig,
    +ylim(c(0.5,2))
    #+ scale_color_gradientn(colours = c('grey92','grey60','grey20'))
    +scale_shape_discrete(labels=
-                           c(expression(italic(Quercus~cocinear)~MÃ¼nchh),
+                           c(expression(italic(Quercus~cocinear)~Münchh),
                              expression(italic(Petasides~frigidus)),
                              expression(italic(Guatteria~dumetorum))
                            ))
@@ -313,7 +313,7 @@ d=(ggplot(data=data_fig,
    +ylim(c(0.5,2))
    #+ scale_color_gradientn(colours = c('grey92','grey60','grey20'))
    +scale_shape_discrete(labels=
-                           c(expression(italic(Quercus~cocinear)~MÃ¼nchh),
+                           c(expression(italic(Quercus~cocinear)~Münchh),
                              expression(italic(Petasides~frigidus)),
                              expression(italic(Guatteria~dumetorum))
                            ))
@@ -326,3 +326,4 @@ leg=get_legend(a)
 plot_grid(half,leg,ncol = 2,rel_widths = c(0.75,0.25))
 dev.off()
 
+save(res_all,file='2_Aci_parameters.Rdata')
