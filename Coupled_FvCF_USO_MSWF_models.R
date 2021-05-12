@@ -14,11 +14,19 @@ f.A<-function(PFD,cs,Tleaf,Tair,RH,gcw=10*10^-3,param=f.make.param(),model_diff=
   
   ds=f.ds(Tleaf,Tair,RH)
   cc=NA
+  
+  wi=0.61365*exp(17.502*(Tleaf-273.16)/(240.97+(Tleaf-273.16)))/(param[['Patm']])
+  ws=0.61365*exp(17.502*(Tair-273.16)/(240.97+(Tair-273.16)))/(param[['Patm']])*RH/100
+  
+  
+  #if(model_diff=='Fick'){k=0;l=0}
+ # if(model_diff=='vCF'){k=k=ds/(param[['Patm']]*1000)/2*1.6;l=0} ## *1.6 due to a mistake in f.solv
+  #if(model_diff=='MSWF'){k=ds/(param[['Patm']]*1000)/2*1.6;l=gcw*0.05;param[['g0']]=param[['g0']]-gcw}
   if(model_diff=='Fick'){k=0;l=0}
-  if(model_diff=='vCF'){k=k=ds/(param[['Patm']]*1000)/2;l=0}
-  if(model_diff=='MSWF'){k=ds/(param[['Patm']]*1000)/2;l=gcw*0.05;param[['g0']]=param[['g0']]-gcw}
+  if(model_diff=='vCF'){k=(wi-ws)/(2-(wi+ws))*1.6;l=0} ## *1.6 due to a mistake in f.solv
+  if(model_diff=='MSWF'){k=(wi-ws)/(2-(wi+ws))*1.6;l=gcw*0.05;param[['g0']]=param[['g0']]-gcw}
   
-  
+   (wi-ws)/(2-(wi+ws))
   #Resolution for CLM4.5 and FATES
   if(param[['TBM']]%in%c(0,2)){
     

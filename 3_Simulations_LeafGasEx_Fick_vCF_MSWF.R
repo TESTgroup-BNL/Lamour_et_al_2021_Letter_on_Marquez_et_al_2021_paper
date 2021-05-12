@@ -100,7 +100,7 @@ d=(ggplot(data=simu_RH,
           panel.grid.minor = element_blank()))
 
 
-jpeg(filename = '3_diagnostic_plots.jpeg',width = 200,height = 170,units = 'mm',res=300)
+jpeg(filename = '3_diagnostic_plots_2.jpeg',width = 200,height = 170,units = 'mm',res=300)
 
 fig=plot_grid(a+theme(legend.position = 'none'),
           b+theme(legend.position = 'none'),

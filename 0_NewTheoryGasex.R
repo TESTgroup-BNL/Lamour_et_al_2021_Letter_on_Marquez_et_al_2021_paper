@@ -55,7 +55,7 @@ f.Comput_GasEx_6800<-function(LICOR6800_data,gcw,Beta=0.05){
   
   Ci=Cs-(AT+Cs*ET-Cs*D*gcw)/(Gi-alpha*gcw)
   
-  Ec = (gcw)*(wi-ws)
+  Ec = (gcw)*(wi-ws) ## Eq 10
   Es = ET - Ec
   
   gsw = (Es-Es*((wi+ws)/2))/(wi-ws)
@@ -138,6 +138,6 @@ f.Comput_GasEx_6400<-function(LICOR6400_data,gcw,Beta=0.05){
   
   gsw = (Es-Es*((wi+ws)/2))/(wi-ws)
   
-  return(list(Cs=Cs,Ci=Ci,gsw=gsw,glw=gsw+gcw,ws=ws,wi=wi)) 
+  return(list(Cs=Cs,Ci=Ci,gsw=gsw,glw=gsw+gcw,ws=ws,wi=wi,Ec=Ec,Es=Es)) 
 }
 
