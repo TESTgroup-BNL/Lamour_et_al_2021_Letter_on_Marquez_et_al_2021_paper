@@ -4,6 +4,7 @@
 setwd("~/GitHub/Marquez_et_al_2021_New_Gasex_theory")
 library(LeafGasExchange)
 library(cowplot)
+library(viridis)
 source('0_NewTheoryGasex.R')
 load('1_Aci_data_QaQc.Rdata')
 
@@ -15,8 +16,7 @@ load('1_Aci_data_QaQc.Rdata')
 colnames(Aci_data_Panama)[colnames(Aci_data_Panama)=='X.U.0394.Pcham']='X.Pcham'
 
 Aci=Aci_data_Panama[order(Aci_data_Panama$Ci),]
-Recomp_Aci_Panama=Aci[,c('A','Tleaf','Ci','Qin','gsw')]
-Recomp_Aci_Panama$Recomp='Reference'
+Recomp_Aci_Panama=data.frame()
 
 ## I recompute this file using Marquez et al. 2021 theory using different values 
 ## of cuticular conductance
@@ -24,7 +24,7 @@ for(gcw in seq(0,25*10^-3,1*10^-3)){
   Recomp=f.Comput_GasEx_6800(LICOR6800_data = Aci,gcw = gcw)
   Recomp_Aci_Panama=rbind.data.frame(Recomp_Aci_Panama,data.frame(A=Aci$A,
                                                     Tleaf=Aci$Tleaf,
-                                                    Ci=Recomp$Ci,
+                                                    Ci=Recomp$Ci,Cs=Recomp$Cs,Ca=Aci$CO2_s,
                                                     Qin=Aci$Qin,
                                                     gsw=Recomp$gsw,
                                                     Recomp=gcw))
@@ -38,8 +38,7 @@ Recomp_Aci_Panama$mean_gbw=mean(2*Aci$gbw)
 #### Recalculation of the ACi values from the Arctic data ###
 #############################################################
 Aci=Aci_data_arctic[order(Aci_data_arctic$Ci),]
-Recomp_Aci_arctic=Aci[,c('Photo','Tleaf','Ci','PARi','Cond')]
-Recomp_Aci_arctic$Recomp='Reference'
+Recomp_Aci_arctic=data.frame()
 
 ## I recompute this file using Marquez et al. 2021 theory using different values 
 ## of cuticular conductance
@@ -47,7 +46,7 @@ for(gcw in seq(0,25*10^-3,1*10^-3)){
   Recomp=f.Comput_GasEx_6400(LICOR6400_data = Aci,gcw = gcw)
   Recomp_Aci_arctic=rbind.data.frame(Recomp_Aci_arctic,data.frame(Photo=Aci$Photo,
                                                     Tleaf=Aci$Tleaf,
-                                                    Ci=Recomp$Ci,
+                                                    Ci=Recomp$Ci,Cs=Recomp$Cs,Ca=Aci$CO2S,
                                                     PARi=Aci$PARi,
                                                     Cond=Recomp$gsw,
                                                     Recomp=gcw))
@@ -57,16 +56,13 @@ Recomp_Aci_arctic$Species='Petasites frigidus'
 Recomp_Aci_arctic$mean_gbw=mean(2*Aci_data_arctic$BLCond)
 colnames(Recomp_Aci_arctic)=colnames(Recomp_Aci_Panama)
 
-## Effect of different gcw on an Aci curve
-ggplot(data=Recomp_Aci_arctic[Recomp_Aci_arctic$Recomp!='Reference',],aes(x=Ci,y=A,color=Recomp))+geom_point()+xlab(expression(italic(C)[i]~calculated~using~Marquez~et~al.~2021))+labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
-
 ##########################################################
 #### Recalculation of the ACi values from the Oak data ###
 ##########################################################
 
 Aci=Aci_data_oak[order(Aci_data_oak$Ci),]
-Recomp_Aci_oak=Aci[,c('Photo','Tleaf','Ci','PARi','Cond')]
-Recomp_Aci_oak$Recomp='Reference'
+
+Recomp_Aci_oak=data.frame()
 
 ## I recompute this file using Marquez et al. 2021 theory using different values 
 ## of cuticular conductance
@@ -74,7 +70,7 @@ for(gcw in seq(0,25*10^-3,1*10^-3)){
   Recomp=f.Comput_GasEx_6400(LICOR6400_data = Aci,gcw = gcw)
   Recomp_Aci_oak=rbind.data.frame(Recomp_Aci_oak,data.frame(Photo=Aci$Photo,
                                                                   Tleaf=Aci$Tleaf,
-                                                                  Ci=Recomp$Ci,
+                                                                  Ci=Recomp$Ci,Cs=Recomp$Cs,Ca=Aci$CO2S,
                                                                   PARi=Aci$PARi,
                                                                   Cond=Recomp$gsw,
                                                                   Recomp=gcw))
@@ -86,33 +82,23 @@ colnames(Recomp_Aci_oak)=colnames(Recomp_Aci_Panama)
 
 Recomp_Aci=rbind.data.frame(Recomp_Aci_Panama,Recomp_Aci_arctic,Recomp_Aci_oak)
 
-#######################################
-## Figure effect of cc on Aci curves ##
-#######################################
+########################################
+## Figure effect of gcc on Aci curves ##
+########################################
 
-# First, I check if the A-Ci curves measured by the LICOR correspond to the recomputed values for gcw = 0
-
-plot(x=Recomp_Aci[Recomp_Aci$Recomp=='Reference','Ci'],y=Recomp_Aci[Recomp_Aci$Recomp=='0','Ci'])
-abline(c(0,1))
-       
-# Figure of the effect of cc
-data_fig=Recomp_Aci[Recomp_Aci$Recomp!='Reference',]
+# Figure of the effect of gcc
+data_fig=Recomp_Aci
 data_fig$Recomp=as.numeric(data_fig$Recomp)  
 data_fig$Species=factor(as.character(data_fig$Species),levels = c("Quercus coccinea Münchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
-library(viridis)
-jpeg(filename = 'Figure1.jpeg',width = 150,height = 92,units = 'mm',res=300)
+
+jpeg(filename = 'Figure1.jpeg',width = 130,height = 92,units = 'mm',res=300)
 (ggplot(data=data_fig,
-       aes(x=Ci,y=A,color=Recomp,shape=Species))+geom_point()
+       aes(x=Ci,y=A,color=Recomp*1000,shape=Species))+geom_point(size=2)
       +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
       +xlab(expression(italic(C)[i]~ppm))
-      +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
-  + scale_color_gradientn(colours = c('grey92','grey60','grey20'))
-      +scale_shape_discrete(labels=
-          c(expression(italic(Quercus~cocinear)~Münchh),
-            expression(italic(Petasides~frigidus)),
-            expression(italic(Guatteria~dumetorum))
-            ))
-      +theme_bw()
+      +labs(color = expression(italic(g)[cw]~mmol~m^-2~s^-1))
+  + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))+scale_shape_discrete(guide=FALSE)
+  +theme_bw()
   +theme(legend.text.align = 0,panel.grid.major = element_blank(), panel.grid.minor = element_blank()))
 dev.off()
 
@@ -129,11 +115,11 @@ Recomp_Aci_oak$Tleaf=Recomp_Aci_oak$Tleaf+273.16
 
 ##### Panama
 
-Without_TPU=f.fitting(measures = Recomp_Aci_Panama[Recomp_Aci_Panama$Recomp=='Reference',],id.name = 'Species',
+Without_TPU=f.fitting(measures = Recomp_Aci_Panama,id.name = 'Species',
                       Start =list(JmaxRef=65,RdRef=1,VcmaxRef=45),
                       param = f.make.param(TpRef=100),type = 'Aci')
 
-With_TPU=f.fitting(measures = Recomp_Aci_Panama[Recomp_Aci_Panama$Recomp=='Reference',],id.name = 'Species',
+With_TPU=f.fitting(measures = Recomp_Aci_Panama,id.name = 'Species',
                    Start =list(JmaxRef=Without_TPU[[2]]@coef['JmaxRef'],
                                RdRef=Without_TPU[[2]]@coef['RdRef'],
                                VcmaxRef=Without_TPU[[2]]@coef['VcmaxRef'],
@@ -164,11 +150,11 @@ res_Panama$Recomp=row.names(res_Panama)
 
 ##### arctic
 
-Without_TPU=f.fitting(measures = Recomp_Aci_arctic[Recomp_Aci_arctic$Recomp=='Reference',],id.name = 'Species',
+Without_TPU=f.fitting(measures = Recomp_Aci_arctic,id.name = 'Species',
                       Start =list(JmaxRef=65,RdRef=1,VcmaxRef=45),
                       param = f.make.param(TpRef=100),type = 'Aci')
 
-With_TPU=f.fitting(measures = Recomp_Aci_arctic[Recomp_Aci_arctic$Recomp=='Reference',],id.name = 'Species',
+With_TPU=f.fitting(measures = Recomp_Aci_arctic,id.name = 'Species',
                    Start =list(JmaxRef=Without_TPU[[2]]@coef['JmaxRef'],
                                RdRef=Without_TPU[[2]]@coef['RdRef'],
                                VcmaxRef=Without_TPU[[2]]@coef['VcmaxRef'],
@@ -201,11 +187,11 @@ res_arctic$Recomp=row.names(res_arctic)
 
 ##### oak
 
-Without_TPU=f.fitting(measures = Recomp_Aci_oak[Recomp_Aci_oak$Recomp=='Reference',],id.name = 'Species',
+Without_TPU=f.fitting(measures = Recomp_Aci_oak,id.name = 'Species',
                       Start =list(JmaxRef=65,RdRef=1,VcmaxRef=45),
                       param = f.make.param(TpRef=100),type = 'Aci')
 
-With_TPU=f.fitting(measures = Recomp_Aci_oak[Recomp_Aci_oak$Recomp=='Reference',],id.name = 'Species',
+With_TPU=f.fitting(measures = Recomp_Aci_oak,id.name = 'Species',
                    Start =list(JmaxRef=Without_TPU[[2]]@coef['JmaxRef'],
                                RdRef=Without_TPU[[2]]@coef['RdRef'],
                                VcmaxRef=Without_TPU[[2]]@coef['VcmaxRef'],
@@ -232,7 +218,9 @@ res_oak=as.data.frame(t(sapply(result_various_gcw_oak,
                                                       AIC=AIC(x[[2]])))))
 res_oak$Recomp=row.names(res_oak)
 
-
+## Estimating g1 parameter for the panama species
+Steady_state_point=Aci_data_Panama[1,]
+g1=((Steady_state_point$gsw-1.6*Steady_state_point$A/Steady_state_point$CO2_s)*sqrt(Steady_state_point$VPDleaf)*Steady_state_point$CO2_s)/(1.6*Steady_state_point$A)
 
 #########################
 ### Figure parameters ###
@@ -253,7 +241,7 @@ for(species in unique(data_fig$Species)){
   data_fig[data_fig$Species==species,'Rd25']=data_fig[data_fig$Species==species,'RdRef']/data_fig[data_fig$Species==species&data_fig$Recomp==0,'RdRef']
  }
 data_fig$Recomp=as.numeric(data_fig$Recomp) 
-size_p=1
+size_p=1.25
 a=(ggplot(data=data_fig,
           aes(x=Recomp,y=Vcmax25,shape=Species))+geom_point(size=size_p)
    +ylab(expression(Standardized~italic(V)[cmax]))
@@ -261,11 +249,7 @@ a=(ggplot(data=data_fig,
    +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
    +ylim(c(0.5,2))
    #+ scale_color_gradientn(colours = c('grey92','grey60','grey20'))
-   +scale_shape_discrete(labels=
-                           c(expression(italic(Quercus~cocinear)~Münchh),
-                             expression(italic(Petasides~frigidus)),
-                             expression(italic(Guatteria~dumetorum))
-                           ))
+   +scale_shape_discrete(guide=FALSE)
    +theme_bw()
    +theme(legend.text.align = 0,panel.grid.major = element_blank(), panel.grid.minor = element_blank()))
 
@@ -277,11 +261,7 @@ b=(ggplot(data=data_fig,
    +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
    +ylim(c(0.5,2))
    #+ scale_color_gradientn(colours = c('grey92','grey60','grey20'))
-   +scale_shape_discrete(labels=
-                           c(expression(italic(Quercus~cocinear)~Münchh),
-                             expression(italic(Petasides~frigidus)),
-                             expression(italic(Guatteria~dumetorum))
-                           ))
+   +scale_shape_discrete(guide=FALSE)
    +theme_bw()
    +theme(legend.text.align = 0,panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.position='none'))
 
@@ -294,11 +274,7 @@ c=(ggplot(data=data_fig,
    +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
    +ylim(c(0.5,2))
    #+ scale_color_gradientn(colours = c('grey92','grey60','grey20'))
-   +scale_shape_discrete(labels=
-                           c(expression(italic(Quercus~cocinear)~Münchh),
-                             expression(italic(Petasides~frigidus)),
-                             expression(italic(Guatteria~dumetorum))
-                           ))
+   +scale_shape_discrete(guide=FALSE)
    +theme_bw()
    +theme(legend.text.align = 0,panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.position='none'))
 
@@ -312,18 +288,12 @@ d=(ggplot(data=data_fig,
    +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
    +ylim(c(0.5,2))
    #+ scale_color_gradientn(colours = c('grey92','grey60','grey20'))
-   +scale_shape_discrete(labels=
-                           c(expression(italic(Quercus~cocinear)~Münchh),
-                             expression(italic(Petasides~frigidus)),
-                             expression(italic(Guatteria~dumetorum))
-                           ))
+   +scale_shape_discrete(guide=FALSE)
    +theme_bw()
    +theme(legend.text.align = 0,panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.position='none'))
 
-jpeg(filename = 'Figure2.jpeg',width = 210,height = 145,units = 'mm',res=300)
-half=plot_grid(a+theme(legend.position = 'none'),b,c,d,align='hv',ncol=2,labels = 'auto')
-leg=get_legend(a)
-plot_grid(half,leg,ncol = 2,rel_widths = c(0.75,0.25))
+jpeg(filename = 'Figure2.jpeg',width = 145,height = 145,units = 'mm',res=300)
+plot_grid(a+theme(legend.position = 'none'),b,c,d,align='hv',ncol=2,labels = 'auto')
 dev.off()
 
 save(res_all,file='2_Aci_parameters.Rdata')

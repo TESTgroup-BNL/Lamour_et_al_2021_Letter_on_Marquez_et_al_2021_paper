@@ -4,10 +4,10 @@ load('2_Aci_parameters.Rdata',verbose=TRUE)
 library(cowplot)
 
 ### Variables and parameters for the simulations
+##Trash part colours = c('#133831','white','#3CA4A7') c('grey92','grey60','grey20')
+PFD=1000;cs=400;Tleaf=Tair=25+273.15;RH=60
 
-PFD=1000;cs=400;Tleaf=Tair=25+273.15;RH=70
-
-param=f.make.param(g0=0.03)
+param=f.make.param(g0=0.03,model.gs = 'USO',TBM = 'FATES',g1=4.1,VcmaxRef = 50)
 size_p=1
 #########################
 ###   Qin variation   ###
@@ -20,16 +20,28 @@ for(gcw in seq(0,25*10^-3,0.1*10^-3)){
           gcw=gcw,param=param)
   simu_Qin=rbind.data.frame(simu_Qin,cbind.data.frame(as.data.frame(res),gcw=gcw,Qin=0.01:2000))
 }
+
+## An figure
 a=(ggplot(data=simu_Qin,
         aes(x=Qin,y=A,color=gcw))+geom_point(size=size_p)
   +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
   +xlab(expression(Irradiance~mu*mol~m^-2~s^-1))
   +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
-  + scale_color_gradientn(colours = c('grey92','grey60','grey20'))
+  + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
   +theme_bw()+geom_line(data=cbind.data.frame(as.data.frame(Qin_Fick),Qin=0.01:2000),aes(linetype='Fick'),color='red')
   +theme(legend.text.align = 0,panel.grid.major = element_blank(), 
          panel.grid.minor = element_blank()))
 
+## ET figure
+e=(ggplot(data=simu_Qin,
+          aes(x=Qin,y=ET,color=gcw))+geom_point(size=size_p)
+   +ylab(expression(italic(E)[T]~mol~m^-2~s^-1))
+   +xlab(expression(Irradiance~mu*mol~m^-2~s^-1))
+   +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
+   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
+   +theme_bw()+geom_line(data=cbind.data.frame(as.data.frame(Qin_Fick),Qin=0.01:2000),aes(linetype='Fick'),color='red')
+   +theme(legend.text.align = 0,panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank()))
 
 #####################
 ### cs variation  ###
@@ -48,35 +60,55 @@ b=(ggplot(data=simu_cs,
    +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
    +xlab(expression(italic(C)[s]~ppm))
    +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
-   + scale_color_gradientn(colours = c('grey92','grey60','grey20'))
+   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
    +theme_bw()
    +xlim(c(0,NA))
    +geom_line(data=cbind.data.frame(as.data.frame(cs_Fick),cs=seq(30,2000,1)),aes(linetype='Fick'),color='red')
    +theme(legend.text.align = 0,panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank()))
 
+f=(ggplot(data=simu_cs,
+          aes(x=cs,y=ET,color=gcw))+geom_point(size=size_p)
+   +ylab(expression(italic(E)[T]~mol~m^-2~s^-1))
+   +xlab(expression(italic(C)[s]~ppm))
+   +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
+   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
+   +theme_bw()
+   +xlim(c(0,NA))
+   +geom_line(data=cbind.data.frame(as.data.frame(cs_Fick),cs=seq(30,2000,1)),aes(linetype='Fick'),color='red')
+   +theme(legend.text.align = 0,panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank()))
 
 ########################
 ### Tleaf variation  ###
 ########################
 
-Tleaf_Fick=f.A(PFD=PFD,cs=cs,Tleaf=seq(5,45,0.1)+273.15,Tair=seq(5,45,0.1)+273.15,RH=RH,model_diff='Fick',param=param)
+Tleaf_Fick=f.A(PFD=PFD,cs=cs,Tleaf=seq(5,50,0.1)+273.15,Tair=seq(5,50,0.1)+273.15,RH=RH,model_diff='Fick',param=param)
 simu_Tleaf=data.frame()
 for(gcw in seq(0,25*10^-3,0.1*10^-3)){
-  res=f.A(PFD=PFD,cs=cs,Tleaf=seq(5,45,0.1)+273.15,Tair=seq(5,45,0.1)+273.15,RH=RH,model_diff='MSWF',
+  res=f.A(PFD=PFD,cs=cs,Tleaf=seq(5,50,0.1)+273.15,Tair=seq(5,50,0.1)+273.15,RH=RH,model_diff='MSWF',
           gcw=gcw,param=param)
-  simu_Tleaf=rbind.data.frame(simu_Tleaf,cbind.data.frame(as.data.frame(res),gcw=gcw,Tleaf=seq(5,45,0.1)+273.15))
+  simu_Tleaf=rbind.data.frame(simu_Tleaf,cbind.data.frame(as.data.frame(res),gcw=gcw,Tleaf=seq(5,50,0.1)+273.15))
 }
 c=(ggplot(data=simu_Tleaf,
           aes(x=Tleaf-273.16,y=A,color=gcw))+geom_point(size=size_p)
    +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
    +xlab(expression(italic(T)[leaf]~degree*C))
    +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
-   + scale_color_gradientn(colours = c('grey92','grey60','grey20'))
-   +theme_bw()+geom_line(data=cbind.data.frame(as.data.frame(Tleaf_Fick),Tleaf=seq(5,45,0.1)+273.15),aes(linetype='Fick'),color='red')
+   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
+   +theme_bw()+geom_line(data=cbind.data.frame(as.data.frame(Tleaf_Fick),Tleaf=seq(5,50,0.1)+273.15),aes(linetype='Fick'),color='red')
    +theme(legend.text.align = 0,panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank()))
 
+g=(ggplot(data=simu_Tleaf,
+          aes(x=Tleaf-273.16,y=ET,color=gcw))+geom_point(size=size_p)
+   +ylab(expression(italic(E)[T]~mol~m^-2~s^-1))
+   +xlab(expression(italic(T)[leaf]~degree*C))
+   +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
+   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
+   +theme_bw()+geom_line(data=cbind.data.frame(as.data.frame(Tleaf_Fick),Tleaf=seq(5,50,0.1)+273.15),aes(linetype='Fick'),color='red')
+   +theme(legend.text.align = 0,panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank()))
 
 #####################
 ### RH variation  ###
@@ -91,24 +123,50 @@ for(gcw in seq(0,25*10^-3,0.1*10^-3)){
 }
 d=(ggplot(data=simu_RH,
           aes(x=RH,y=A,color=gcw))+geom_point(size=size_p)
-   +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
+   +ylab(expression(italic(A)[n]~mol~m^-2~s^-1))
    +xlab(expression(RH))+xlim(c(0,100))+ylim(c(0,NA))
    +labs(color = expression(MSWF:~italic(g)[cw]~mol~m^-2~s^-1),linetype='')
-   + scale_color_gradientn(colours = c('grey92','grey60','grey20'))
+   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
    +theme_bw()+geom_line(data=cbind.data.frame(as.data.frame(RH_Fick),RH=seq(10,95,0.1)),aes(linetype='Fick'),color='red')
    +theme(legend.text.align = 0,panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank()))
 
 
-jpeg(filename = '3_diagnostic_plots_2.jpeg',width = 200,height = 170,units = 'mm',res=300)
+
+
+
+
+
+h=(ggplot(data=simu_RH,
+          aes(x=RH,y=ET,color=gcw))+geom_point(size=size_p)
+   +ylab(expression(italic(E)[T]~mol~m^-2~s^-1))
+   +xlab(expression(RH))+xlim(c(0,100))+ylim(c(0,NA))
+   +labs(color = expression(MSWF:~italic(g)[cw]~mol~m^-2~s^-1),linetype='')
+   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
+   +theme_bw()+geom_line(data=cbind.data.frame(as.data.frame(RH_Fick),RH=seq(10,95,0.1)),aes(linetype='Fick'),color='red')
+   +theme(legend.text.align = 0,panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank()))
+
+
+jpeg(filename = '3_diagnostic_plots.jpeg',width = 200,height = 170,units = 'mm',res=300)
 
 fig=plot_grid(a+theme(legend.position = 'none'),
-          b+theme(legend.position = 'none'),
-          c+theme(legend.position = 'none'),
-          d+theme(legend.position = 'none'),
-          align = "hv",labels = "auto")
+              b+theme(legend.position = 'none'),
+              c+theme(legend.position = 'none'),
+              d+theme(legend.position = 'none'),
+              align = "hv",labels = "auto")
 leg=get_legend(d)
 plot_grid(fig,leg,ncol=2,rel_widths = c(0.75,0.25))
 dev.off()
 
+jpeg(filename = '3_diagnostic_plots_ET.jpeg',width = 200,height = 170,units = 'mm',res=300)
+
+fig=plot_grid(e+theme(legend.position = 'none'),
+              f+theme(legend.position = 'none'),
+              g+theme(legend.position = 'none'),
+              h+theme(legend.position = 'none'),
+              align = "hv",labels = "auto")
+leg=get_legend(d)
+plot_grid(fig,leg,ncol=2,rel_widths = c(0.75,0.25))
+dev.off()
 
