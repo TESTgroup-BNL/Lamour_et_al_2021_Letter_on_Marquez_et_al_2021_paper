@@ -1,5 +1,5 @@
 setwd("~/GitHub/Marquez_et_al_2021_New_Gasex_theory")
-source('Coupled_FvCF_USO_MSWF_models.R')
+source('Coupled_FvCF_USO_M2021_photosynthesis_model.R')
 load('2_Aci_parameters.Rdata',verbose=TRUE)
 library(cowplot)
 

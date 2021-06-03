@@ -5,7 +5,7 @@ setwd("~/GitHub/Marquez_et_al_2021_New_Gasex_theory")
 library(LeafGasExchange)
 library(cowplot)
 library(viridis)
-source('0_NewTheoryGasex.R')
+source('0_LICOR_Recalculations_functions_M2021.R')
 load('1_Aci_data_QaQc.Rdata')
 
 
@@ -101,6 +101,14 @@ jpeg(filename = 'Figure1.jpeg',width = 130,height = 92,units = 'mm',res=300)
   +theme_bw()
   +theme(legend.text.align = 0,panel.grid.major = element_blank(), panel.grid.minor = element_blank()))
 dev.off()
+
+(ggplot(data=data_fig,
+        aes(x=Ci,y=gsw+Recomp,color=Species,shape=Species))+geom_point(size=2)
+  +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
+  +xlab(expression(italic(C)[i]~ppm))
+  +labs(color = expression(italic(g)[cw]~mmol~m^-2~s^-1))
+  +theme_bw()
+  +theme(legend.text.align = 0,panel.grid.major = element_blank(), panel.grid.minor = element_blank()))
 
 ###########################################################################
 ## Effect of the differnt Aci curves on the estimation of the parameters ##

@@ -1,5 +1,5 @@
 library(LeafGasExchange)
-source('0_NewTheoryGasex.R')
+source('0_LICOR_Recalculations_functions_M2021.R')
 setwd("~/GitHub/Marquez_et_al_2021_New_Gasex_theory")
 
 
