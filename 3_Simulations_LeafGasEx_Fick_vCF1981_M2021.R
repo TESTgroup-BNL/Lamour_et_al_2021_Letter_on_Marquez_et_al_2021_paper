@@ -1,10 +1,15 @@
-setwd("~/GitHub/Marquez_et_al_2021_New_Gasex_theory")
+#########################################################################
+### The aim of this code is to simulate the effect of changing        ###   
+### the transport model (Fick s law replaced by Marquez et al. 2021)  ###
+### in leaf gas exchange simulations                                  ###
+#########################################################################
+library(here)
+setwd(here())
 source('Coupled_FvCF_USO_M2021_photosynthesis_model.R')
 load('2_Aci_parameters.Rdata',verbose=TRUE)
 library(cowplot)
 
 ### Variables and parameters for the simulations
-##Trash part colours = c('#133831','white','#3CA4A7') c('grey92','grey60','grey20')
 PFD=1000;cs=400;Tleaf=Tair=25+273.15;RH=70
 
 size_p=1
@@ -151,42 +156,8 @@ h=(ggplot(data=simu_RH,
           panel.grid.minor = element_blank()))
 
 
-jpeg(filename = '3_diagnostic_plots.jpeg',width = 200,height = 170,units = 'mm',res=300)
 
-fig=plot_grid(a+theme(legend.position = 'none'),
-              b+theme(legend.position = 'none'),
-              c+theme(legend.position = 'none'),
-              d+theme(legend.position = 'none'),
-              align = "hv",labels = "auto")
-leg=get_legend(d)
-plot_grid(fig,leg,ncol=2,rel_widths = c(0.75,0.25))
-dev.off()
 
-jpeg(filename = '3_diagnostic_plots_ET.jpeg',width = 200,height = 170,units = 'mm',res=300)
-
-fig=plot_grid(e+theme(legend.position = 'none'),
-              f+theme(legend.position = 'none'),
-              g+theme(legend.position = 'none'),
-              h+theme(legend.position = 'none'),
-              align = "hv",labels = "auto")
-leg=get_legend(d)
-plot_grid(fig,leg,ncol=2,rel_widths = c(0.75,0.25))
-dev.off()
-
-jpeg(filename = '3_diagnostic_plots_combined.jpeg',width = 200,height = 140,units = 'mm',res=600)
-
-fig=plot_grid(a+theme(legend.position = 'none'),
-              b+theme(legend.position = 'none'),
-              c+theme(legend.position = 'none'),
-              d+theme(legend.position = 'none'),
-              e+theme(legend.position = 'none'),
-              f+theme(legend.position = 'none'),
-              g+theme(legend.position = 'none'),
-              h+theme(legend.position = 'none'),
-              align = "hv",labels = "auto",ncol=4)
-leg=get_legend(d+theme(legend.position = 'bottom'))
-plot_grid(fig,leg,ncol=1,rel_heights = c(0.8,0.2))
-dev.off()
 
 jpeg(filename = '3_diagnostic_plots_combined.jpeg',width = 200,height = 100,units = 'mm',res=600)
 plot_grid(a+theme(legend.position = 'none',axis.title = element_blank()),

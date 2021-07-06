@@ -1,10 +1,12 @@
-## The aim of this code is to test the effect of the new theory on the ACi measurement
-## and fitting
+####################################################################
+### The aim of this code is to test the effect of the new theory ###
+### on the ACi measurement and fitting                           ###
+####################################################################
 
-setwd("~/GitHub/Marquez_et_al_2021_New_Gasex_theory")
-library(LeafGasExchange)
+library(LeafGasExchange) #https://github.com/TESTgroup-BNL/LeafGasExchange
 library(cowplot)
-library(viridis)
+library(here)
+setwd(here())
 source('0_LICOR_Recalculations_functions_M2021.R')
 load('1_Aci_data_QaQc.Rdata')
 
@@ -76,7 +78,7 @@ for(gcw in seq(0,25*10^-3,1*10^-3)){
                                                                   Recomp=gcw))
   
 }
-Recomp_Aci_oak$Species='Quercus coccinea Münchh'
+Recomp_Aci_oak$Species='Quercus coccinea M?nchh'
 Recomp_Aci_oak$mean_gbw=mean(2*Aci_data_oak$BLCond)
 colnames(Recomp_Aci_oak)=colnames(Recomp_Aci_Panama)
 
@@ -89,7 +91,7 @@ Recomp_Aci=rbind.data.frame(Recomp_Aci_Panama,Recomp_Aci_arctic,Recomp_Aci_oak)
 # Figure of the effect of gcc
 data_fig=Recomp_Aci
 data_fig$Recomp=as.numeric(data_fig$Recomp)  
-data_fig$Species=factor(as.character(data_fig$Species),levels = c("Quercus coccinea Münchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
+data_fig$Species=factor(as.character(data_fig$Species),levels = c("Quercus coccinea M?nchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
 
 a=(ggplot(data=data_fig,
        aes(x=Ci,y=A,color=Recomp*1000,shape=Species))+geom_point(size=2)
@@ -240,11 +242,11 @@ g1=((Steady_state_point$gsw-1.6*Steady_state_point$A/Steady_state_point$CO2_s)*s
 #########################
 res_oak$TpRef=NA
 res_arctic$TpRef=NA
-res_oak$Species="Quercus coccinea Münchh"
+res_oak$Species="Quercus coccinea M?nchh"
 res_Panama$Species="Guatteria dumetorum"
 res_arctic$Species="Petasites frigidus"
 res_all=rbind.data.frame(res_oak[,colnames(res_Panama)],res_arctic[,colnames(res_Panama)],res_Panama)
-res_all$Species=factor(as.character(res_all$Species),levels = c("Quercus coccinea Münchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
+res_all$Species=factor(as.character(res_all$Species),levels = c("Quercus coccinea M?nchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
 
 data_fig=res_all[res_all$Recomp!='Reference',]
 for(species in unique(data_fig$Species)){

@@ -1,10 +1,9 @@
 ####################################
 ### Function to compute the LICOR6800 gasex variables according to the new theory by Marquez et al. 2021
-#' Title
-#'
+#' @title Recalculation of LICOR 6800 data using Marquez et al. 2021 theory
 #' @param LICOR6800_data Data.frame object corresponding to the excel file raw output from a LICOR6800. Note that the column 'Delta'.Pcham in the excel file is important but is often not correctly imported in R due to the Delta grec symbol. In this data.frame, the column name has to names X.Pcham for the function to work.
 #' @param gcw Cuticular conductance in mol m-2 s-1
-#' @param Beta Ratio of cuticular conductance to CO2 and cuticular conductance to H20, see 
+#' @param Beta Ratio of cuticular conductance to CO2 and cuticular conductance to H20, see Marquez et al.2021 paper
 #' @references Márquez DA, Stuart-Williams H, Farquhar GD. 2021. An improved theory for calculating leaf gas exchange more precisely accounting for small fluxes. Nature Plants.
 #' @return Return a list with: 
 #' Cs the leaf surface CO2 concentration (ppm)
@@ -30,24 +29,24 @@ f.Comput_GasEx_6800<-function(LICOR6800_data,gcw,Beta=0.05){
   DeltaPa=LICOR6800_data$X.Pcham
   Tleaf=LICOR6800_data$Tleaf
 
-  ## Eq. 9
+  ## Eq. 9 of Marquez et al. 2021 paper
   ws=(wa+(1-wa/2)*ET/gbw)/(1+ET/(2*gbw))
   
   ## Eq 30 and 40 in LICOR 6800 manual
   ## https://www.licor.com/env/support/LI-6800/topics/additional-calculations.html?Highlight=stomatal%20ratio
   wi=0.61365*exp(17.502*Tleaf/(240.97+Tleaf))/(Pa+DeltaPa)
   
-  ## Eq.15
+  ## Eq.15 of Marquez et al. 2021 paper
   gtw=1/((wi-ws)/(ET-(ET-gcw*(wi-ws))*((wi+ws)/2))+1/gbw)
   
   ## Eq 66 in LICOR 6800 manual
   ## https://www.licor.com/env/support/LI-6800/topics/additional-calculations.html?Highlight=stomatal%20ratio
   gbc=gbw/1.37
   
-  ## Eq. 12
+  ## Eq. 12 of Marquez et al. 2021 paper
   Cs=(gbc*Ca-AT-ET/2*Ca)/(gbc+ET/2)
   
-  ## Eq. 14
+  ## Eq. 14 of Marquez et al. 2021 paper
   D=wi-ws
   wbars=(wi+ws)/2
   Gi=ET/(1.6*(wi-ws))*(1-wbars)+ET/2
@@ -81,11 +80,10 @@ points(y=test0$Ci,x=data_LICOR6800$Air.VP.def,col='green')
 
 ####################################
 ### Function to compute the LICOR6400 gasex variables according to the new theory by Marquez et al. 2021
-#' Title
-#'
+#' @title Recalculation of LICOR 6400 data using Marquez et al. 2021 theory
 #' @param LICOR6400_data Data.frame object corresponding to the csv file
 #' @param gcw Cuticular conductance in mol m-2 s-1
-#' @param Beta Ratio of cuticular conductance to CO2 and cuticular conductance to H20, see 
+#' @param Beta Ratio of cuticular conductance to CO2 and cuticular conductance to H20, see Marquez et al. 2021 paper
 #' @references Márquez DA, Stuart-Williams H, Farquhar GD. 2021. An improved theory for calculating leaf gas exchange more precisely accounting for small fluxes. Nature Plants.
 #' @return Return a list with: 
 #' Cs the leaf surface CO2 concentration (ppm)
@@ -108,24 +106,24 @@ f.Comput_GasEx_6400<-function(LICOR6400_data,gcw,Beta=0.05){
   DeltaPa=0
   Tleaf=LICOR6400_data$Tleaf
   
-  ## Eq. 9
+  ## Eq. 9 of Marquez et al. 2021 paper
   ws=(wa+(1-wa/2)*ET/gbw)/(1+ET/(2*gbw))
   
   ## Eq 30 and 40 in LICOR 6400 manual
   ## https://www.licor.com/env/support/LI-6400/topics/additional-calculations.html?Highlight=stomatal%20ratio
   wi=0.61365*exp(17.502*Tleaf/(240.97+Tleaf))/(Pa+DeltaPa)
   
-  ## Eq.15
+  ## Eq.15 of Marquez et al. 2021 paper
   gtw=1/((wi-ws)/(ET-(ET-gcw*(wi-ws))*((wi+ws)/2))+1/gbw)
   
   ## Eq 66 in LICOR 6400 manual
   ## https://www.licor.com/env/support/LI-6400/topics/additional-calculations.html?Highlight=stomatal%20ratio
   gbc=gbw/1.37
   
-  ## Eq. 12
+  ## Eq. 12 of Marquez et al. 2021 paper
   Cs=(gbc*Ca-AT-ET/2*Ca)/(gbc+ET/2)
   
-  ## Eq. 14
+  ## Eq. 14 of Marquez et al. 2021 paper
   D=wi-ws
   wbars=(wi+ws)/2
   Gi=ET/(1.6*(wi-ws))*(1-wbars)+ET/2

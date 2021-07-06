@@ -1,4 +1,11 @@
-library(LeafGasExchange)
+#######################################################
+### The aim of this code is to modify the functions ###
+### of the package LeafGasExchange to consider the  ###
+### Marquez et al. 2021 theoryLeagGasExchange       ###
+#######################################################
+
+library(LeafGasExchange) #https://github.com/TESTgroup-BNL/LeafGasExchange
+## See the funciton f.A of the package LeafGasExchange for more info
 f.A<-function(PFD,cs,Tleaf,Tair,RH,gcw=10*10^-3,param=f.make.param(),model_diff='Fick'){
   if(!param[['TBM']]%in%c(0,2)){print('Please, use FATES or CLM4.5 TBMs')}
   #Calculation of temperature dependence of the parameters
@@ -56,7 +63,7 @@ f.A<-function(PFD,cs,Tleaf,Tair,RH,gcw=10*10^-3,param=f.make.param(),model_diff=
 }
 
 
-## Apply only for USO model
+## Apply only for USO models and BWB model of conductance
 f.solv<-function(x,y,cs,Rd,Gstar,g1,power,ds,RH,k,l,q,model){
   if(model=="USO"|model==0){
     m=1.6*(1+g1/(ds)^power)*1/cs

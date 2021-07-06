@@ -1,6 +1,13 @@
-library(LeafGasExchange)
+###############################################################
+### The aim of this code is to import and check the quality ###
+### of the ACi curves                                       ###
+###############################################################
+
+library(LeafGasExchange) #https://github.com/TESTgroup-BNL/LeafGasExchange
+library(here)
+setwd(here())
 source('0_LICOR_Recalculations_functions_M2021.R')
-setwd("~/GitHub/Marquez_et_al_2021_New_Gasex_theory")
+
 
 
 Aci_data_Panama=f.import_licor6800(file = '~/GitHub/Marquez_et_al_2021_New_Gasex_theory/Datasets/20200122_ACi_Lindsey_BNL17167.xlsx')
@@ -12,6 +19,7 @@ remove=c(19,9:11)
 Aci_data_Panama=Aci_data_Panama[!Aci_data_Panama$obs%in%remove,]
 points(x=Aci_data_Panama$Ci,y=Aci_data_Panama$A,cex=2,col='red')
 'Guatteria dumetorum'
+
 #####################
 #### Arctic data  ###
 #####################
