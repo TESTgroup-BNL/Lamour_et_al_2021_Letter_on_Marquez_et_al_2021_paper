@@ -1,4 +1,4 @@
-# Marquez_et_al_2021_New_Gasex_theory
+# Aim of the repository
  
  The aim of this repository is to implement the Marquez et al. 2021 new gas transport theory between the leaf and the atmosphere, hereafter called the M2021 theory.
  The values of intercellular CO2 (Ci), CO2 at the surface of the leaf (Cs) and the stomatal conductance (gsw) are recalculated from the output of the gas exchange instruments.
