@@ -20,7 +20,7 @@ The effect of the MSWF theory on the ACi parameters are obtained using also the 
 Simulations of leaf gas exchange for a tropical species are made using the script [3_Simulations_LeafGasEx_Fick_vCF1981_M2021.R](https://github.com/TESTgroup-BNL/Marquez_et_al_2021_New_Gasex_theory/blob/main/3_Simulations_LeafGasEx_Fick_vCF1981_M2021.R). For those simulations the Farquhar et al. 1980 photosynthesis model is coupled with a stomatal conductance model (Medlyn et al. 2011). The M2021 theory is used to calculate the gas transport between the leaf and the atmosphere and is compared with the vCF theory (von Caemmerer and Farquhar, 1981) and the Fick's law of diffusion which is often implemented in crops and terrestrial biosphere models. The equations used to make those simulations are given in a PDF file [Equations for the FvCB USO M2021 model.pdf](https://github.com/TESTgroup-BNL/Marquez_et_al_2021_New_Gasex_theory/blob/main/Equations%20for%20the%20FvCB%20USO%20M2021%20model.pdf).
 
 Note that the code uses the [LeafGasExchange](https://github.com/TESTgroup-BNL/LeafGasExchange) package, available on github. https://github.com/TESTgroup-BNL/LeafGasExchange.
-The packages 'here' and 'cowplot'are also needed.
+The packages 'here' and 'cowplot' are also needed.
 
 
 ## References
