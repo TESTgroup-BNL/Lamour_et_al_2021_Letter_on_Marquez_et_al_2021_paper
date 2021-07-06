@@ -159,7 +159,7 @@ h=(ggplot(data=simu_RH,
 
 
 
-jpeg(filename = '3_diagnostic_plots_combined.jpeg',width = 200,height = 100,units = 'mm',res=600)
+jpeg(filename = 'Figure3_diagnostic_plots_combined.jpeg',width = 200,height = 100,units = 'mm',res=600)
 plot_grid(a+theme(legend.position = 'none',axis.title = element_blank()),
                        b+theme(legend.position = 'none',axis.title = element_blank()),
                        c+theme(legend.position = 'none',axis.title = element_blank()),

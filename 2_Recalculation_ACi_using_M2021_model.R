@@ -117,9 +117,12 @@ d=plot_grid(c,leg,ncol = 1,rel_heights = c(0.8,0.2))
 jpeg(filename = 'Figure1.jpeg',width = 180*0.9,height = 110*0.9,units = 'mm',res=300)
 d
 dev.off()
+
 ###########################################################################
 ## Effect of the differnt Aci curves on the estimation of the parameters ##
-## of the A-Ci curves                                                    ##
+## of the A-Ci curves  
+## For more info on the fitting of the Aci curves see the doc here:
+## https://github.com/TESTgroup-BNL/LeafGasExchange/blob/master/vignettes/Aci_fitting.md
 ###########################################################################
 
 ## Correcting the units of the temperature
@@ -313,8 +316,3 @@ dev.off()
 
 
 save(res_all,file='2_Aci_parameters.Rdata')
-
-
-for(gcw in seq(0,25*10^-3,1*10^-3)){
-  Recomp_Aci[Recomp_Aci$Recomp==gcw,'glw_diff']=Recomp_Aci[Recomp_Aci$Recomp==gcw,'glw']-Recomp_Aci[Recomp_Aci$Recomp==0,'glw']
-}

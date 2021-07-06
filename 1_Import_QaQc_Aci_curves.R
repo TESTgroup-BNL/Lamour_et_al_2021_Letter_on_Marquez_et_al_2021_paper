@@ -44,7 +44,7 @@ text(x=Aci_data_oak[Aci_data_oak$Sample_ID==unique(Aci_data_oak$Sample_ID)[i],'C
      y=Aci_data_oak[Aci_data_oak$Sample_ID==unique(Aci_data_oak$Sample_ID)[i],'Photo'],
      labels = Aci_data_oak[Aci_data_oak$Sample_ID==unique(Aci_data_oak$Sample_ID)[i],'Obs'],cex=0.7)  
 }
-unique(Aci_data_oak$Sample_ID)[14]
+#unique(Aci_data_oak$Sample_ID)[14]
 Aci_data_oak=Aci_data_oak[Aci_data_oak$Sample_ID=='15072',]
 
 
