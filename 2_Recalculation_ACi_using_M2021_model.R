@@ -91,8 +91,7 @@ data_fig=Recomp_Aci
 data_fig$Recomp=as.numeric(data_fig$Recomp)  
 data_fig$Species=factor(as.character(data_fig$Species),levels = c("Quercus coccinea Münchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
 
-jpeg(filename = 'Figure1.jpeg',width = 130,height = 92,units = 'mm',res=300)
-(ggplot(data=data_fig,
+a=(ggplot(data=data_fig,
        aes(x=Ci,y=A,color=Recomp*1000,shape=Species))+geom_point(size=2)
       +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
       +xlab(expression(italic(C)[i]~ppm))
@@ -100,16 +99,22 @@ jpeg(filename = 'Figure1.jpeg',width = 130,height = 92,units = 'mm',res=300)
   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))+scale_shape_discrete(guide=FALSE)
   +theme_bw()
   +theme(legend.text.align = 0,panel.grid.major = element_blank(), panel.grid.minor = element_blank()))
-dev.off()
 
-(ggplot(data=data_fig,
-        aes(x=Ci,y=gsw+Recomp,color=Species,shape=Species))+geom_point(size=2)
-  +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
+
+b=(ggplot(data=data_fig[data_fig$Recomp==0,],
+        aes(x=Ci,y=gsw,shape=Species))+geom_point(size=2,color='#133831')
+  +ylab(expression(italic(g)[sw]~mol~m^-2~s^-1))
   +xlab(expression(italic(C)[i]~ppm))
-  +labs(color = expression(italic(g)[cw]~mmol~m^-2~s^-1))
-  +theme_bw()
+  +ylim(c(0,NA))
+  +theme_bw()+scale_shape_discrete(guide=FALSE)
   +theme(legend.text.align = 0,panel.grid.major = element_blank(), panel.grid.minor = element_blank()))
 
+c=plot_grid(a+theme(legend.position = 'none'),b,ncol=2,rel_widths = c(0.5,0.5),labels = 'auto')
+leg=get_legend(a+theme(legend.position = 'bottom'))
+d=plot_grid(c,leg,ncol = 1,rel_heights = c(0.8,0.2))
+jpeg(filename = 'Figure1.jpeg',width = 180*0.9,height = 110*0.9,units = 'mm',res=300)
+d
+dev.off()
 ###########################################################################
 ## Effect of the differnt Aci curves on the estimation of the parameters ##
 ## of the A-Ci curves                                                    ##
@@ -249,7 +254,7 @@ for(species in unique(data_fig$Species)){
   data_fig[data_fig$Species==species,'Rd25']=data_fig[data_fig$Species==species,'RdRef']/data_fig[data_fig$Species==species&data_fig$Recomp==0,'RdRef']
  }
 data_fig$Recomp=as.numeric(data_fig$Recomp) 
-size_p=1.25
+size_p=1.75
 a=(ggplot(data=data_fig,
           aes(x=Recomp,y=Vcmax25,shape=Species))+geom_point(size=size_p)
    +ylab(expression(Standardized~italic(V)[cmax]))
@@ -304,4 +309,10 @@ jpeg(filename = 'Figure2.jpeg',width = 145,height = 145,units = 'mm',res=300)
 plot_grid(a+theme(legend.position = 'none'),b,c,d,align='hv',ncol=2,labels = 'auto')
 dev.off()
 
+
 save(res_all,file='2_Aci_parameters.Rdata')
+
+
+for(gcw in seq(0,25*10^-3,1*10^-3)){
+  Recomp_Aci[Recomp_Aci$Recomp==gcw,'glw_diff']=Recomp_Aci[Recomp_Aci$Recomp==gcw,'glw']-Recomp_Aci[Recomp_Aci$Recomp==0,'glw']
+}

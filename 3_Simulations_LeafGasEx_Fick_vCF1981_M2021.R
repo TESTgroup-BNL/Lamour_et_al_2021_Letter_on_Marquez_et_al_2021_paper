@@ -5,7 +5,7 @@ library(cowplot)
 
 ### Variables and parameters for the simulations
 ##Trash part colours = c('#133831','white','#3CA4A7') c('grey92','grey60','grey20')
-PFD=1000;cs=400;Tleaf=Tair=25+273.15;RH=60
+PFD=1000;cs=400;Tleaf=Tair=25+273.15;RH=70
 
 size_p=1
 #########################
@@ -21,8 +21,9 @@ for(gcw in seq(0,25*10^-3,0.1*10^-3)){
 }
 ## An figure
 a=(ggplot(data=simu_Qin,
-        aes(x=Qin,y=A,color=gcw))+geom_point(size=size_p)+ylim(c(-0.5,12))
-  +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
+        aes(x=Qin,y=A,color=gcw))+geom_point(size=size_p)
+   +scale_y_continuous(breaks=c(0,5,10),labels=c(0,5,10),limits=c(-0.5,11.8))
+   +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
   +xlab(expression(Irradiance~mu*mol~m^-2~s^-1))
   +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
@@ -54,7 +55,9 @@ for(gcw in seq(0,25*10^-3,0.1*10^-3)){
   simu_cs=rbind.data.frame(simu_cs,cbind.data.frame(as.data.frame(res),gcw=gcw,cs=seq(200,800,1)))
 }
 b=(ggplot(data=simu_cs,
-          aes(x=cs,y=A,color=gcw))+geom_point(size=size_p)+ylim(c(-0.5,12))+xlim(c(200,800))
+          aes(x=cs,y=A,color=gcw))+geom_point(size=size_p)+xlim(c(200,800))
+   +scale_y_continuous(breaks=c(0,5,10),labels=c(0,5,10),limits=c(-0.5,11.8))
+   
    +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
    +xlab(expression(italic(C)[s]~ppm))
    +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
@@ -87,7 +90,9 @@ for(gcw in seq(0,25*10^-3,0.1*10^-3)){
   simu_Tleaf=rbind.data.frame(simu_Tleaf,cbind.data.frame(as.data.frame(res),gcw=gcw,Tleaf=seq(5,45,0.1)+273.15))
 }
 c=(ggplot(data=simu_Tleaf,
-          aes(x=Tleaf-273.16,y=A,color=gcw))+geom_point(size=size_p)+ylim(c(-0.5,12))
+          aes(x=Tleaf-273.16,y=A,color=gcw))+geom_point(size=size_p)
+   +scale_y_continuous(breaks=c(0,5,10),labels=c(0,5,10),limits=c(-0.5,11.8))
+   
    +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
    +xlab(expression(Leaf~Temperature~degree*C))
    +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
@@ -118,7 +123,9 @@ for(gcw in seq(0,25*10^-3,0.1*10^-3)){
   simu_RH=rbind.data.frame(simu_RH,cbind.data.frame(as.data.frame(res),gcw=gcw,RH=seq(10,95,0.1)))
 }
 d=(ggplot(data=simu_RH,
-          aes(x=RH,y=A,color=gcw*1000))+geom_point(size=size_p)+ylim(c(-0.5,12))
+          aes(x=RH,y=A,color=gcw*1000))+geom_point(size=size_p)
+   +scale_y_continuous(breaks=c(0,5,10),labels=c(0,5,10),limits=c(-0.5,11.8))
+   
    +ylab(expression(italic(A)[n]~mol~m^-2~s^-1))
    +xlab(expression(Relative~humidity~'%'))+xlim(c(0,100))
    +labs(color = expression(italic(g)[cw]~mmol~m^-2~s^-1),linetype='')
@@ -166,7 +173,7 @@ leg=get_legend(d)
 plot_grid(fig,leg,ncol=2,rel_widths = c(0.75,0.25))
 dev.off()
 
-jpeg(filename = '3_diagnostic_plots_combined.jpeg',width = 200,height = 140,units = 'mm',res=300)
+jpeg(filename = '3_diagnostic_plots_combined.jpeg',width = 200,height = 140,units = 'mm',res=600)
 
 fig=plot_grid(a+theme(legend.position = 'none'),
               b+theme(legend.position = 'none'),
@@ -179,4 +186,16 @@ fig=plot_grid(a+theme(legend.position = 'none'),
               align = "hv",labels = "auto",ncol=4)
 leg=get_legend(d+theme(legend.position = 'bottom'))
 plot_grid(fig,leg,ncol=1,rel_heights = c(0.8,0.2))
+dev.off()
+
+jpeg(filename = '3_diagnostic_plots_combined.jpeg',width = 200,height = 100,units = 'mm',res=600)
+plot_grid(a+theme(legend.position = 'none',axis.title = element_blank()),
+                       b+theme(legend.position = 'none',axis.title = element_blank()),
+                       c+theme(legend.position = 'none',axis.title = element_blank()),
+                       d+theme(legend.position = 'none',axis.title = element_blank()),
+                       e+theme(legend.position = 'none',axis.title = element_blank()),
+                       f+theme(legend.position = 'none',axis.title = element_blank()),
+                       g+theme(legend.position = 'none',axis.title = element_blank()),
+                       h+theme(legend.position = 'none',axis.title = element_blank()),
+                       align = "hv",labels = "auto",ncol=4)
 dev.off()
