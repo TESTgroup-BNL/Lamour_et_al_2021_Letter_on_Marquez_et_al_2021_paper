@@ -39,9 +39,16 @@ f.Comput_GasEx_6800<-function(LICOR6800_data,gcw,Beta=0.05){
   ## Eq.15 of Marquez et al. 2021 paper
   gtw=1/((wi-ws)/(ET-(ET-gcw*(wi-ws))*((wi+ws)/2))+1/gbw)
   
+  gtw_VCF=ET*(1-(wi+wa)/2)/(wi-wa) # Eq. 1 Marquez et al. 2021
+  gsw_VCF=gtw_VCF*gbw/(gbw-gtw_VCF) # Eq. 5 Marquez et al. 2021
+  gsc_VCF=gsw_VCF/1.6 #Eq. 6 Marquez et al. 2021
+  
   ## Eq 66 in LICOR 6800 manual
   ## https://www.licor.com/env/support/LI-6800/topics/additional-calculations.html?Highlight=stomatal%20ratio
   gbc=gbw/1.37
+  
+  gtc_VCF=gbc*gsc_VCF/(gsc_VCF+gbc) ## Eq.7 Marquez et al. 2021
+  Ci_VCF=((gtc_VCF-ET/2)*Ca-AT)/(gtc_VCF+ET/2) ## Eq. 8 Marquez et al. 2021
   
   ## Eq. 12 of Marquez et al. 2021 paper
   Cs=(gbc*Ca-AT-ET/2*Ca)/(gbc+ET/2)
@@ -59,7 +66,7 @@ f.Comput_GasEx_6800<-function(LICOR6800_data,gcw,Beta=0.05){
   
   gsw = (Es-Es*((wi+ws)/2))/(wi-ws)
   
-  return(list(Cs=Cs,Ci=Ci,gsw=gsw,glw=gsw+gcw,ws=ws,wi=wi,Es=Es,Ec=Ec)) 
+  return(list(Cs=Cs,Ci=Ci,Ci_VCF=Ci_VCF,gsw=gsw,glw=gsw+gcw,ws=ws,wi=wi,Es=Es,Ec=Ec)) 
 }
 
 ## The function is compared to the result Marquez et al., (2021) obtained on their Figure 4 
@@ -72,7 +79,7 @@ par(mfrow=c(1,2),mar=c(4,4.5,2,1))
 plot(y=data_LICOR6800$A,x=data_LICOR6800$Ci,xlim=c(0,300),ylim=c(0,22),col='red',ylab=expression(A~(micro*mol~m^-2~s^-1)),xlab=expression(C[i]~(ppm)))
 points(y=data_LICOR6800$A,x=test$Ci,col='blue')
 points(y=data_LICOR6800$A,x=test0$Ci,col='green')
-
+points(y=data_LICOR6800$A,x=test$Ci_VCF,col='red')
 
 plot(y=data_LICOR6800$Ci,x=data_LICOR6800$Air.VP.def,xlim=c(1,3),ylim=c(0,300),col='red',ylab=expression(C[i]~(ppm)),xlab = expression(ASD~(kPa)))
 points(y=test$Ci,x=data_LICOR6800$Air.VP.def,col='blue')

@@ -78,7 +78,7 @@ for(gcw in seq(0,25*10^-3,1*10^-3)){
                                                                   Recomp=gcw))
   
 }
-Recomp_Aci_oak$Species='Quercus coccinea M?nchh'
+Recomp_Aci_oak$Species='Quercus coccinea Munchh'
 Recomp_Aci_oak$mean_gbw=mean(2*Aci_data_oak$BLCond)
 colnames(Recomp_Aci_oak)=colnames(Recomp_Aci_Panama)
 
@@ -91,11 +91,11 @@ Recomp_Aci=rbind.data.frame(Recomp_Aci_Panama,Recomp_Aci_arctic,Recomp_Aci_oak)
 # Figure of the effect of gcc
 data_fig=Recomp_Aci
 data_fig$Recomp=as.numeric(data_fig$Recomp)  
-data_fig$Species=factor(as.character(data_fig$Species),levels = c("Quercus coccinea M?nchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
+data_fig$Species=factor(as.character(data_fig$Species),levels = c("Quercus coccinea Munchh","Petasites frigidus","Guatteria dumetorum"),ordered = TRUE)
 
 a=(ggplot(data=data_fig,
        aes(x=Ci,y=A,color=Recomp*1000,shape=Species))+geom_point(size=2)
-      +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
+      +ylab(expression(italic(A)~mu*mol~m^-2~s^-1))
       +xlab(expression(italic(C)[i]~ppm))
       +labs(color = expression(italic(g)[cw]~mmol~m^-2~s^-1))
   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))+scale_shape_discrete(guide=FALSE)

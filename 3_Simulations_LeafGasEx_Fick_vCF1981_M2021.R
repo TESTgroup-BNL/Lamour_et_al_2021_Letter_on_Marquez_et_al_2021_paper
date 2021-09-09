@@ -28,7 +28,7 @@ for(gcw in seq(0,25*10^-3,0.1*10^-3)){
 a=(ggplot(data=simu_Qin,
         aes(x=Qin,y=A,color=gcw))+geom_point(size=size_p)
    +scale_y_continuous(breaks=c(0,5,10),labels=c(0,5,10),limits=c(-0.5,11.8))
-   +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
+   +ylab(expression(italic(A)~mu*mol~m^-2~s^-1))
   +xlab(expression(Irradiance~mu*mol~m^-2~s^-1))
   +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
   + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
@@ -63,7 +63,7 @@ b=(ggplot(data=simu_cs,
           aes(x=cs,y=A,color=gcw))+geom_point(size=size_p)+xlim(c(200,800))
    +scale_y_continuous(breaks=c(0,5,10),labels=c(0,5,10),limits=c(-0.5,11.8))
    
-   +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
+   +ylab(expression(italic(A)~mu*mol~m^-2~s^-1))
    +xlab(expression(italic(C)[s]~ppm))
    +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
    + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
@@ -98,7 +98,7 @@ c=(ggplot(data=simu_Tleaf,
           aes(x=Tleaf-273.16,y=A,color=gcw))+geom_point(size=size_p)
    +scale_y_continuous(breaks=c(0,5,10),labels=c(0,5,10),limits=c(-0.5,11.8))
    
-   +ylab(expression(italic(A)[n]~mu*mol~m^-2~s^-1))
+   +ylab(expression(italic(A)~mu*mol~m^-2~s^-1))
    +xlab(expression(Leaf~Temperature~degree*C))
    +labs(color = expression(italic(g)[cw]~mol~m^-2~s^-1))
    + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
@@ -131,7 +131,7 @@ d=(ggplot(data=simu_RH,
           aes(x=RH,y=A,color=gcw*1000))+geom_point(size=size_p)
    +scale_y_continuous(breaks=c(0,5,10),labels=c(0,5,10),limits=c(-0.5,11.8))
    
-   +ylab(expression(italic(A)[n]~mol~m^-2~s^-1))
+   +ylab(expression(italic(A)~mol~m^-2~s^-1))
    +xlab(expression(Relative~humidity~'%'))+xlim(c(0,100))
    +labs(color = expression(italic(g)[cw]~mmol~m^-2~s^-1),linetype='')
    + scale_color_gradientn(colours = c('#133831','white','#3CA4A7'))
