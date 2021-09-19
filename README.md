@@ -31,3 +31,7 @@ Farquhar, G. D., von Caemmerer, S. V., & Berry, J. A. (1980). A biochemical mode
 Márquez, D.A., Stuart-Williams, H. & Farquhar, G.D. An improved theory for calculating leaf gas exchange more precisely accounting for small fluxes. Nat. Plants 7, 317–326 (2021). https://doi.org/10.1038/s41477-021-00861-w
 
 Medlyn BE, Duursma RA, Eamus D, Ellsworth DS, Prentice IC, Barton CVM, Crous KY, Angelis PD, Freeman M, Wingate L. 2011. Reconciling the optimal and empirical approaches to modelling stomatal conductance. Global Change Biology 17: 2134–2144.
+
+## DOI
+
+[![DOI](https://zenodo.org/badge/364026620.svg)](https://zenodo.org/badge/latestdoi/364026620)
