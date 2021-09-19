@@ -1,4 +1,4 @@
-# Aim of the repository
+# New model of gas exchange between the leaf and the atmosphere
  
  The aim of this repository is to implement the Marquez et al. 2021 new gas transport theory between the leaf and the atmosphere, hereafter called the M2021 theory.
  The values of intercellular CO2 (Ci), CO2 at the surface of the leaf (Cs) and the stomatal conductance (gsw) are recalculated from the output of the gas exchange instruments (LI6800 or LI6400).
