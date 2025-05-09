@@ -1,18 +1,17 @@
-# New model of gas exchange between the leaf and the atmosphere
- 
- The aim of this repository is to implement the Marquez et al. 2021 new gas transport theory between the leaf and the atmosphere, hereafter called the M2021 theory.
- The values of intercellular CO2 (Ci), CO2 at the surface of the leaf (Cs) and the stomatal conductance (gsw) are recalculated from the output of the gas exchange instruments (LI6800 or LI6400).
- The calculation of those variables using the Marquez et al. 2021 theory uses several variables :
- - Boundary layer conductance to water
- - Leaf temperature
- - Atmospheric pressure
- - Chamber overpressure
- - Sample cell H2O concentration
- - Sample cell CO2 concentration
- - Leaf transpiration
- - Leaf CO2 assimilation rate
-It also uses two parameters, the leaf cuticular conductance to water and Beta, the ratio between the cuticular conductance to CO2 and to water. 
+## Repository aim
 
+This code was used to analyze data and generate figures associated with Lamour et al. (2021).
+
+Lamour, J., Davidson, K.J., Ely, K.S., Li, Q., Serbin, S.P. and Rogers, A. (2022), New calculations for photosynthesis measurement systems: what's the impact for physiologists and modelers?. New Phytol, 233: 592-598. https://doi.org/10.1111/nph.17762
+
+## Márquez et al. 2021 gas transport model
+ 
+ Márquez et al. 2021 proposed a new gas transport theory between the leaf and the atmosphere, hereafter called the M2021 theory.
+ This new theory can be used to re-estimate variables measured by gas exchange instruments (LI-6400, LI-6800,...) such as Ci, while accounting for cuticular conductance.
+ This new theory can also be used to simulate gas exchange and replace Fick's law of diffusion.
+
+ ## Repository organization
+ 
 Functions are given to recompute the gas exchange variables from the outputs of the LICOR6800 and LICOR6400 [0_LICOR_Recalculations_functions_M2021.R](https://github.com/TESTgroup-BNL/Marquez_et_al_2021_New_Gasex_theory/blob/main/0_LICOR_Recalculations_functions_M2021.R). Examples or recalculations of A-Ci curves are made using the script [2_Recalculation_ACi_using_M2021_model.R](https://github.com/TESTgroup-BNL/Marquez_et_al_2021_New_Gasex_theory/blob/main/2_Recalculation_ACi_using_M2021_model.R).
 
 The effect of the M2021 theory on the A-Ci parameters of the FvCB model (Vcmax, Jmax, Tp, Rd, Farquhar et al. 1980) are obtained using also the script [2_Recalculation_ACi_using_M2021_model.R](https://github.com/TESTgroup-BNL/Marquez_et_al_2021_New_Gasex_theory/blob/main/2_Recalculation_ACi_using_M2021_model.R).
@@ -27,6 +26,8 @@ The packages 'here' and 'cowplot' are also needed.
 von Caemmerer S, Farquhar GD. 1981. Some relationships between the biochemistry of photosynthesis and the gas exchange of leaves. Planta 153: 376–387.
 
 Farquhar, G. D., von Caemmerer, S. V., & Berry, J. A. (1980). A biochemical model of photosynthetic CO 2 assimilation in leaves of C 3 species. Planta, 149(1), 78-90.
+
+Márquez DA, Stuart-Williams H, Farquhar GD. 2021. An improved theory for calculating leaf gas exchange more precisely accounting for small fluxes. Nature Plants 7: 317–326.
 
 Márquez, D.A., Stuart-Williams, H. & Farquhar, G.D. An improved theory for calculating leaf gas exchange more precisely accounting for small fluxes. Nat. Plants 7, 317–326 (2021). https://doi.org/10.1038/s41477-021-00861-w
 
