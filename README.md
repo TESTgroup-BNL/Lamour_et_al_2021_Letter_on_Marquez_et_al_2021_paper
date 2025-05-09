@@ -8,7 +8,7 @@ Lamour, J., Davidson, K.J., Ely, K.S., Li, Q., Serbin, S.P. and Rogers, A. (2022
  
  Márquez et al. 2021 proposed a new gas transport theory between the leaf and the atmosphere, hereafter called the M2021 theory.
  This new theory can be used to re-estimate variables measured by gas exchange instruments (LI-6400, LI-6800,...) such as Ci, while accounting for cuticular conductance.
- This new theory can also be used to simulate gas exchange and replace Fick's law of diffusion.
+ This new theory can also be used as a replacement for Fick's law of diffusion for simulating gas exchanges in vegetation models. Usually, leaf gas exchanges are simulated by coupling models of photosynthesis (e.g. Farquhar et al. 1980), stomatal conductance (e.g., Medlyn et al. 2011), and gas transport (e.g., Fick's Law, or Farquhar et al. 1981). However, Fick's Law and Farquhar et al. 1981 fail at representing gas transport through the cuticle.
 
  ## Repository organization
  
@@ -26,8 +26,6 @@ The packages 'here' and 'cowplot' are also needed.
 von Caemmerer S, Farquhar GD. 1981. Some relationships between the biochemistry of photosynthesis and the gas exchange of leaves. Planta 153: 376–387.
 
 Farquhar, G. D., von Caemmerer, S. V., & Berry, J. A. (1980). A biochemical model of photosynthetic CO 2 assimilation in leaves of C 3 species. Planta, 149(1), 78-90.
-
-Márquez DA, Stuart-Williams H, Farquhar GD. 2021. An improved theory for calculating leaf gas exchange more precisely accounting for small fluxes. Nature Plants 7: 317–326.
 
 Márquez, D.A., Stuart-Williams, H. & Farquhar, G.D. An improved theory for calculating leaf gas exchange more precisely accounting for small fluxes. Nat. Plants 7, 317–326 (2021). https://doi.org/10.1038/s41477-021-00861-w
 
